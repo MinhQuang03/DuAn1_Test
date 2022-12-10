@@ -14,6 +14,7 @@ using _1.DAL.Models;
 using _2.BUS.IServices;
 using _2.BUS.Services;
 using _2.BUS.ViewModels;
+using System.IO;
 
 namespace _3.PL
 {
@@ -127,26 +128,26 @@ namespace _3.PL
             if(e.RowIndex >= 0)
             {
                 DataGridViewRow r = dtg_giohang.Rows[e.RowIndex];
-                if(int.TryParse(dtg_giohang.Rows[r.Index].Cells[3].Value.ToString(), out int x))
+                if(int.TryParse(dtg_giohang.Rows[r.Index].Cells[2].Value.ToString(), out int x))
                 {
-                    if(dtg_giohang.Rows[r.Index].Cells[3].Value != _listHoaDonCT[r.Index].SoLuong.ToString())
+                    if(dtg_giohang.Rows[r.Index].Cells[2].Value != _listHoaDonCT[r.Index].SoLuong.ToString())
                     {
-                        if (Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[3].Value) <= 0)
+                        if (Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[2].Value) <= 0)
                         {
                             MessageBox.Show("Nhập sai số lượng");
-                            dtg_giohang.Rows[r.Index].Cells[3].Value = _listHoaDonCT[r.Index].SoLuong;
+                            dtg_giohang.Rows[r.Index].Cells[2].Value = _listHoaDonCT[r.Index].SoLuong;
                         }
                         else
                         {
                             var p = _chiTietSanPhamService.GetChiTietSpFromDB().FirstOrDefault(x => x.IdChiTietSp == _listHoaDonCT[r.Index].IdChiTietSp);
-                            if (p.SoLuongTon < Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[3].Value))
+                            if (p.SoLuongTon < Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[2].Value))
                             {
                                 MessageBox.Show("Sản phẩm trong giỏ hàng đã vượt quá số lượng cho phép");
-                                dtg_giohang.Rows[r.Index].Cells[3].Value = _listHoaDonCT[r.Index].SoLuong;
+                                dtg_giohang.Rows[r.Index].Cells[2].Value = _listHoaDonCT[r.Index].SoLuong;
                             }
                             else
                             {
-                                _listHoaDonCT[r.Index].SoLuong = Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[3].Value);
+                                _listHoaDonCT[r.Index].SoLuong = Convert.ToInt32(dtg_giohang.Rows[r.Index].Cells[2].Value);
                                 totalCart();
                             }
                         }
@@ -240,14 +241,24 @@ namespace _3.PL
                                 }
                             }
                             _khachHangService.UpdateKhachHang(khachHang);
-                            MessageBox.Show($"Thanh toán thành công \n" +
-                                $"Mã hóa đơn: {tbt_mahd.Text} \n" +
-                                $"Ngày tạo: {DateTime.Now} \n" +
-                                $"Tên khách hàng: {khachHang.TenKH} \n" +
-                                $"Tổng tiền: {lb_tongtien.Text} \n" +
-                                $"Triết khấu: {tbt_giamgia.Text} \n" +
-                                $"Tiền khách đưa: {tbt_tienkhachdua.Text} \n" +
-                                $"Tiền thừa: {lb_tienthua.Text}" );
+                            MessageBox.Show("Thanh toán thành công");
+                            ihd();
+
+                            //SaveFileDialog of = new SaveFileDialog()
+                            //{
+                            //    Filter = "PDF flie|*.pdf",
+                            //    ValidateNames = true,
+
+
+                            //};
+                            //if (of.ShowDialog() == DialogResult.OK)
+                            //{
+                            //    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A7.Rotate());
+                            //    iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(of.FileName, FileMode.Create));
+                            //    doc.Open();
+                            //    //doc.Add();
+                            //}
+
                             tbt_giamgia.Text = "";
                             tbt_tienkhachdua.Text = "";
                             lb_tongtien.Text = "0";
@@ -388,6 +399,7 @@ namespace _3.PL
                 {
                     HoaDon hd = new HoaDon()
                     {
+                        
                         NgayTao = DateTime.Now,
                         NgayThanhToan = DateTime.Now,
                         MaHD = "HD" + tang,
@@ -413,6 +425,7 @@ namespace _3.PL
                         sp.SoLuongTon -= item.SoLuong;
                         _chiTietSanPhamService.UpdateChiTietSp(sp);
                     }
+                    oID = hd.IdHoaDon;
                     tbt_mahd.Text = hd.MaHD;
                     lb_tongtien.Text = hd.TongTien.ToString();
                     tb_sdt.Text = "";
@@ -619,6 +632,66 @@ namespace _3.PL
                 if(videoCaptureDevice.IsRunning)
                     videoCaptureDevice.Stop();
             }
+        }
+
+        private void ihd()
+        {
+            pphd.Document = phd;
+            pphd.ShowDialog();
+
+        }
+        private void phd_PrintPage_1(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            var hd = _hoaDonService.GetHoaDonFromDB().FirstOrDefault(c => c.IdHoaDon == oID);
+            var kh = _khachHangService.GetKhachHangFromDB().FirstOrDefault(c => c.IdKhachHang == hd.IdKhachHang);
+            var nv = _nhanVienService.GetNhanVienFromDB().FirstOrDefault(c => c.IdNhanVien == hd.IdNhanVien);
+
+            //lấy chiều rộng của giấy
+            var w = phd.DefaultPageSettings.PaperSize.Width;
+            //
+            e.Graphics.DrawString("BarMart", new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(100, 20));
+
+            e.Graphics.DrawString(String.Format("Mã Hóa Đơn : {0}", hd.MaHD), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, 20));
+            e.Graphics.DrawString(String.Format(" {0}", DateTime.Now.ToString()), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, 45));
+
+            //
+            Pen pn = new Pen(Color.Black, 1);
+
+            var y = 70;
+            Point p1 = new Point(10, y);
+            Point p2 = new Point(w - 10, y);
+            e.Graphics.DrawLine(pn, p1, p2);
+            y += 10;
+            e.Graphics.DrawString(String.Format("HÓA ĐƠN BÁN HÀNG"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 - 100, y));
+            y += 20;
+            e.Graphics.DrawString(String.Format("Ngày Mua : {0}", hd.NgayTao), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, y));
+            e.Graphics.DrawString(String.Format("Tên Khách Hàng : {0}", kh.TenKH), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(10, y));
+            e.Graphics.DrawString(String.Format("SDT : {0}", kh.SDT), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(10, y + 30));
+            y += 70;
+            e.Graphics.DrawString(String.Format("STT"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(10, y));
+            e.Graphics.DrawString(String.Format("Tên Sản Phẩm"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(100, y));
+            e.Graphics.DrawString(String.Format("Số Lượng"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2, y));
+            e.Graphics.DrawString(String.Format("Đơn Giá"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 100, y));
+            e.Graphics.DrawString(String.Format("Thành Tiền"), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, y));
+            /////
+            ///
+            int stt = 1;
+            y += 20;
+
+            foreach (var x in _hoaDonChiTietService.GetHoaDonChiTietFromDB().Where(c => c.IdHoaDon == oID))
+            {
+                var thanhtien = x.SoLuong * x.GiaBan;
+                e.Graphics.DrawString(String.Format("{0}", stt++), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(10, y));
+                e.Graphics.DrawString(String.Format("{0}", x.TenSP), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(100, y));
+                e.Graphics.DrawString(String.Format("{0}", x.SoLuong), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2, y));
+                e.Graphics.DrawString(String.Format("{0}", x.GiaBan), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 100, y));
+                e.Graphics.DrawString(String.Format("{0}", thanhtien), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, y));
+                y += 20;
+            }
+            y += 20;
+            e.Graphics.DrawLine(pn, p1, p2);
+            y += 20;
+            e.Graphics.DrawString(String.Format("Tổng Tiền : {0}", hd.TongTien), new System.Drawing.Font("Times New Roman", 15, FontStyle.Bold), Brushes.Black, new System.Drawing.Point(w / 2 + 200, y));
         }
     }
 }

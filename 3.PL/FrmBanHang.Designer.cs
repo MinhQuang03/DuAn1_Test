@@ -71,6 +71,8 @@
             this.btn_xoaGioHang = new System.Windows.Forms.Button();
             this.btn_XoaSP = new System.Windows.Forms.Button();
             this.dtg_giohang = new System.Windows.Forms.DataGridView();
+            this.phd = new System.Drawing.Printing.PrintDocument();
+            this.pphd = new System.Windows.Forms.PrintPreviewDialog();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtg_danhsachSP)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -88,20 +90,20 @@
             this.groupBox3.Controls.Add(this.dtg_danhsachSP);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.ForeColor = System.Drawing.Color.IndianRed;
-            this.groupBox3.Location = new System.Drawing.Point(12, 405);
+            this.groupBox3.Location = new System.Drawing.Point(7, 432);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(792, 427);
+            this.groupBox3.Size = new System.Drawing.Size(993, 427);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Danh sách sản phẩm";
             // 
             // tbt_timkiemSP
             // 
-            this.tbt_timkiemSP.Location = new System.Drawing.Point(18, 82);
+            this.tbt_timkiemSP.Location = new System.Drawing.Point(9, 82);
             this.tbt_timkiemSP.Name = "tbt_timkiemSP";
-            this.tbt_timkiemSP.Size = new System.Drawing.Size(206, 27);
+            this.tbt_timkiemSP.Size = new System.Drawing.Size(440, 27);
             this.tbt_timkiemSP.TabIndex = 29;
             this.tbt_timkiemSP.TextChanged += new System.EventHandler(this.tbt_timkiemSP_TextChanged);
             // 
@@ -112,7 +114,7 @@
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(290, 68);
+            this.button1.Location = new System.Drawing.Point(782, 68);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(207, 54);
@@ -129,7 +131,7 @@
             this.dtg_danhsachSP.Name = "dtg_danhsachSP";
             this.dtg_danhsachSP.RowHeadersWidth = 51;
             this.dtg_danhsachSP.RowTemplate.Height = 29;
-            this.dtg_danhsachSP.Size = new System.Drawing.Size(776, 283);
+            this.dtg_danhsachSP.Size = new System.Drawing.Size(954, 283);
             this.dtg_danhsachSP.TabIndex = 26;
             this.dtg_danhsachSP.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_danhsachSP_CellClick_1);
             // 
@@ -164,7 +166,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(810, 405);
+            this.groupBox2.Location = new System.Drawing.Point(1015, 432);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -336,11 +338,11 @@
             // 
             this.groupBox4.Controls.Add(this.dgv_hdcho);
             this.groupBox4.ForeColor = System.Drawing.Color.IndianRed;
-            this.groupBox4.Location = new System.Drawing.Point(929, 1);
+            this.groupBox4.Location = new System.Drawing.Point(1127, 1);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox4.Size = new System.Drawing.Size(336, 400);
+            this.groupBox4.Size = new System.Drawing.Size(370, 424);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Đơn Hàng Chờ";
@@ -353,7 +355,7 @@
             this.dgv_hdcho.Name = "dgv_hdcho";
             this.dgv_hdcho.RowHeadersWidth = 51;
             this.dgv_hdcho.RowTemplate.Height = 25;
-            this.dgv_hdcho.Size = new System.Drawing.Size(323, 337);
+            this.dgv_hdcho.Size = new System.Drawing.Size(357, 370);
             this.dgv_hdcho.TabIndex = 0;
             this.dgv_hdcho.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_hdcho_CellClick);
             // 
@@ -380,7 +382,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(912, 400);
+            this.groupBox1.Size = new System.Drawing.Size(1116, 424);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Giỏ hàng";
@@ -388,7 +390,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(524, 359);
+            this.label6.Location = new System.Drawing.Point(611, 163);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(60, 20);
             this.label6.TabIndex = 28;
@@ -397,9 +399,9 @@
             // cbb_Camera
             // 
             this.cbb_Camera.FormattingEnabled = true;
-            this.cbb_Camera.Location = new System.Drawing.Point(605, 356);
+            this.cbb_Camera.Location = new System.Drawing.Point(677, 160);
             this.cbb_Camera.Name = "cbb_Camera";
-            this.cbb_Camera.Size = new System.Drawing.Size(294, 28);
+            this.cbb_Camera.Size = new System.Drawing.Size(252, 28);
             this.cbb_Camera.TabIndex = 27;
             // 
             // lb_totalcart
@@ -463,9 +465,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.FloralWhite;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(606, 145);
+            this.pictureBox1.Location = new System.Drawing.Point(611, 195);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(293, 204);
+            this.pictureBox1.Size = new System.Drawing.Size(495, 219);
             this.pictureBox1.TabIndex = 21;
             this.pictureBox1.TabStop = false;
             // 
@@ -503,7 +505,7 @@
             // 
             this.tb_sdt.Location = new System.Drawing.Point(722, 35);
             this.tb_sdt.Name = "tb_sdt";
-            this.tb_sdt.Size = new System.Drawing.Size(125, 27);
+            this.tb_sdt.Size = new System.Drawing.Size(207, 27);
             this.tb_sdt.TabIndex = 17;
             this.tb_sdt.TextChanged += new System.EventHandler(this.tb_sdt_TextChanged);
             // 
@@ -565,12 +567,26 @@
             this.dtg_giohang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_giohang_CellClick);
             this.dtg_giohang.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtg_giohang_CellValueChanged);
             // 
+            // phd
+            // 
+            this.phd.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.phd_PrintPage_1);
+            // 
+            // pphd
+            // 
+            this.pphd.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.pphd.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.pphd.ClientSize = new System.Drawing.Size(400, 300);
+            this.pphd.Enabled = true;
+            this.pphd.Icon = ((System.Drawing.Icon)(resources.GetObject("pphd.Icon")));
+            this.pphd.Name = "pphd";
+            this.pphd.Visible = false;
+            // 
             // FrmBanHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
-            this.ClientSize = new System.Drawing.Size(1277, 845);
+            this.ClientSize = new System.Drawing.Size(1507, 881);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
@@ -638,5 +654,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox tbt_timkiemSP;
+        private System.Drawing.Printing.PrintDocument phd;
+        private System.Windows.Forms.PrintPreviewDialog pphd;
     }
 }

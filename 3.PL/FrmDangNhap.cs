@@ -13,6 +13,7 @@ using System.Net;
 using _1.DAL.Models;
 using _2.BUS.IServices;
 using _2.BUS.Services;
+//using System.Data.SqlClient;
 
 namespace _3.PL
 {
@@ -89,12 +90,28 @@ namespace _3.PL
             && p.MatKhau == tbt_MatKhau.Text).FirstOrDefault();
             if(login != null)
             {
+                //if(login.IdChucVu == )
+                //{
+                //    saveInfor();
+                //    this.Hide();
+                //    FrmTrangChu trangChu = new FrmTrangChu();
+                //    trangChu.ShowDialog();
+
+                //    this.Close();
+                //}
+                //else if(login.IdChucVu == "Nhân viên")
+                //{
+                //    saveInfor();
+                //    this.Hide();
+                //    FrmMenuNv trangChu = new FrmMenuNv();
+                //    trangChu.ShowDialog();
+
+                //    this.Close();
+                //}
                 saveInfor();
                 this.Hide();
                 FrmTrangChu trangChu = new FrmTrangChu();
                 trangChu.ShowDialog();
-                Const.TenNV = login.TenNhanVien;
-                this.Close();
             }
             else
             {

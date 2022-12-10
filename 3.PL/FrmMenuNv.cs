@@ -13,12 +13,11 @@ using _1.DAL.Models;
 
 namespace _3.PL
 {
-    public partial class FrmTrangChu : Form
+    public partial class FrmMenuNv : Form
     {
-
         INhanVienService _nhanVienService;
         IChucVuService _chucVuService;
-        public FrmTrangChu()
+        public FrmMenuNv()
         {
             InitializeComponent();
             _chucVuService = new ChucVuService();
@@ -30,21 +29,35 @@ namespace _3.PL
             timer1.Start();
         }
         private Form currentFormChild;
-
         private void OpenChildForm(Form childFrom)
         {
-            if(currentFormChild != null)
+            if (currentFormChild != null)
             {
                 currentFormChild.Close();
             }
             currentFormChild = childFrom;
             childFrom.TopLevel = false;
-            childFrom.FormBorderStyle = FormBorderStyle.None; 
+            childFrom.FormBorderStyle = FormBorderStyle.None;
             childFrom.Dock = DockStyle.Fill;
             panel_Body.Controls.Add(childFrom);
             panel_Body.Tag = childFrom;
             childFrom.BringToFront();
             childFrom.Show();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lb_Ngay.Text = DateTime.Now.ToLongDateString();
+            lb_Gio.Text = DateTime.Now.ToLongTimeString();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (currentFormChild != null)
+            {
+                currentFormChild.Close();
+            }
+            lb_TenTrang.Text = "Trang chủ";
         }
 
         private void btn_BanHang_Click(object sender, EventArgs e)
@@ -65,49 +78,11 @@ namespace _3.PL
             lb_TenTrang.Text = btn_KhachHang.Text;
         }
 
-        private void btn_ThongKe_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FrmThongKe());
-            lb_TenTrang.Text = btn_ThongKe.Text;
-        }
-
-        private void btn_NhanVien_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FrmNhanVien());
-            lb_TenTrang.Text = btn_NhanVien.Text;
-        }
-
-        private void btn_QLKho_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FrmKhoHang());
-            lb_TenTrang.Text = btn_QLKho.Text;
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            if(currentFormChild != null)
-            {
-                currentFormChild.Close();
-            }
-            lb_TenTrang.Text = "Trang chủ";
-        }
-
-        private void btn_DangXuat_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Bạn có chắc muốn đăng xuất không?", "Đăng xuất", MessageBoxButtons.YesNo);
-            if(result == DialogResult.Yes)
-            {
-                this.Hide();
-                FrmDangNhap frmLogin = new FrmDangNhap();
-                frmLogin.ShowDialog();
-            }
-        }
-
-        private void FrmTrangChu_Load(object sender, EventArgs e)
+        private void FrmMenuNv_Load(object sender, EventArgs e)
         {
             var layEmail = Properties.Settings.Default.TKdaLogin;
             var nhanvien = _nhanVienService.GetNhanVienFromDB().FirstOrDefault(p => p.Gmail == layEmail);
-            
+
             lb_MaNv.Text = nhanvien.MaNhanVien;
             lb_TenNv.Text = nhanvien.TenNhanVien;
             lb_Email.Text = nhanvien.Gmail;
@@ -116,17 +91,21 @@ namespace _3.PL
             lb_GioiTinh.Text = nhanvien.GioiTinh == 1 ? "Nam" : "Nữ";
 
             var role = _chucVuService.GetChucVuFromDB().FirstOrDefault(x => x.IdChucVu == nhanvien.IdChucVu);
-            lb_TenDn.Text =  nhanvien.TenNhanVien;
+            lb_TenDn.Text = nhanvien.TenNhanVien;
             lb_ChucVu.Text = role.TenCV;
             pictureBox1.Image = Image.FromFile(nhanvien.LinkAnh);
- 
+
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void btn_DangXuat_Click(object sender, EventArgs e)
         {
-
-            lb_Ngay.Text = DateTime.Now.ToLongDateString();
-            lb_Gio.Text = DateTime.Now.ToLongTimeString();
+            DialogResult result = MessageBox.Show("Bạn có chắc muốn đăng xuất không?", "Đăng xuất", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                this.Hide();
+                FrmDangNhap frmLogin = new FrmDangNhap();
+                frmLogin.ShowDialog();
+            }
         }
 
         private void btn_DoiMk_Click(object sender, EventArgs e)
@@ -165,7 +144,5 @@ namespace _3.PL
                 this.Close();
             }
         }
-
-        
     }
 }

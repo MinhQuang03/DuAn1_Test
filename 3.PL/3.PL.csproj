@@ -12,6 +12,7 @@
     <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
     <PackageReference Include="BarcodeLib" Version="2.4.0" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +28,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Excel">
       <HintPath>..\..\..\..\Downloads\microsoft.office.interop.excel.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>D:\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
 
